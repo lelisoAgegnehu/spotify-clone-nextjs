@@ -1,8 +1,9 @@
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/react";
 import GradientLayout from "../components/gradientLayout";
+import prisma from "../lib/prisma";
 
-export default function Home() {
+export default function Home({ artists }) {
   return (
     <GradientLayout
       roundImage
@@ -19,21 +20,32 @@ export default function Home() {
           </Text>
           <Text fontSize="md">only visible to you</Text>
         </Box>
-        <Box padding="20px" bg="blue.800" width="200px">
-          <Image
-            boxSize="160px"
-            boxShadow="2xl"
-            src="https://cdn-icons-png.flaticon.com/512/1057/1057231.png?w=360"
-            borderRadius="50%"
-          />
-          <Text fontSize="2xl">middum</Text>
-          <Text fontSize="x-small">small</Text>
-        </Box>
+        <Flex>
+          {artists.map((artist) => (
+            <Box paddingX="10px" width="15%">
+              <Box bg="gray.900" borderRadius="4px" padding="15px" width="100%">
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/512/1057/1057231.png?w=360"
+                  borderRadius="100%"
+                />
+                <Box marginTop="20px">
+                  <Text fontSize="large">{artist.name}</Text>
+                  <Text fontSize="x-small">Artist</Text>
+                </Box>
+              </Box>
+            </Box>
+          ))}
+        </Flex>
       </Box>
     </GradientLayout>
   );
 }
 
-// export const getServerSideProps = () => {
+export const getServerSideProps = async () => {
+  const artists = await prisma.artist.findMany({});
+  console.log(artists);
 
-// }
+  return {
+    props: { artists: artists },
+  };
+};
