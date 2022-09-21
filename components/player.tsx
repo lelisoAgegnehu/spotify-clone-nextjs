@@ -19,7 +19,7 @@ import {
 } from "react-icons/md";
 
 const Player = ({ songs, activeSong }) => {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [index, setIndex] = useState(0);
   const [seek, setSeek] = useState(0.0);
   const [repeat, setRepeat] = useState(false);
@@ -40,7 +40,13 @@ const Player = ({ songs, activeSong }) => {
 
   return (
     <Box>
-      <Box>{/* <ReactHowler /> */}</Box>
+      <Box>
+        {/* <ReactHowler playing={playing} src={activeSong?.url} /> */}
+        <ReactHowler
+        src='http://goldfirestudios.com/proj/howlerjs/sound.ogg'
+        playing={playing}
+      />
+      </Box>
       <Center color="gray.600">
         <ButtonGroup>
           <IconButton
