@@ -7,8 +7,8 @@ const PlayerBar = () => {
       <Flex align="center">
         <Text fontSize="large">Song Name</Text>
         <Text fontSize="sm">Artist Name</Text>
-      </Flex>
       <Box width='40%'> <Player /> </Box>
+      </Flex>
     </Box>
   );
 };

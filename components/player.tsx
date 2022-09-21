@@ -1,5 +1,12 @@
-import { Box, Center } from "@chakra-ui/layout";
-import { ButtonGroup, IconButton } from "@chakra-ui/react";
+import { Box, Center, Flex, Text } from "@chakra-ui/layout";
+import {
+  ButtonGroup,
+  IconButton,
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
+} from "@chakra-ui/react";
 import ReactHowler from "react-howler";
 import {
   MdOutlinePauseCircleFilled,
@@ -46,7 +53,7 @@ const Player = () => {
             icon={<MdOutlinePauseCircleFilled />}
           />
           <IconButton
-            outline="none"  
+            outline="none"
             variant="link"
             aria-label="next"
             fontSize="24px"
@@ -61,6 +68,30 @@ const Player = () => {
           />
         </ButtonGroup>
       </Center>
+      <Box color="gray.600">
+        <Flex justify="center" align="center">
+          <Box width="10%">
+            <Text fontSize="xs">1:22</Text>
+          </Box>
+          <Box width="80%">
+            <RangeSlider
+              aria-label={["min", "max"]}
+              step={0.1}
+              min={0}
+              max={320}
+              id="player-range"
+            >
+              <RangeSliderTrack bg="gray.800">
+                <RangeSliderFilledTrack bg="gray.600" />
+              </RangeSliderTrack>
+              <RangeSliderThumb index={0} />
+            </RangeSlider>
+          </Box>
+          <Box width="10%" textAlign="right">
+            <Text fontSize ="xs">320</Text>
+          </Box>
+        </Flex>
+      </Box>
     </Box>
   );
 };
