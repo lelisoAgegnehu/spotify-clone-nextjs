@@ -7,7 +7,7 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactHowler from "react-howler";
 import {
   MdOutlinePauseCircleFilled,
@@ -17,6 +17,7 @@ import {
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
+import { formatTime } from "../lib/formatters";
 
 const Player = ({ songs, activeSong }) => {
   const [playing, setPlaying] = useState(true);
@@ -27,6 +28,22 @@ const Player = ({ songs, activeSong }) => {
   const [shuffle, setShuffle] = useState(false);
   const [duration, setDuration] = useState(0.0);
   const soundRef = useRef(null);
+
+  useEffect(() => {
+    let timeId;
+
+    if (playing && !isSeeking) {
+      const f = () => {
+        setSeek(soundRef.current.seek());
+        timeId = requestAnimationFrame(f);
+      };
+
+      timeId = requestAnimationFrame(f);
+      return () => cancelAnimationFrame(timeId);
+    }
+
+    cancelAnimationFrame(timeId);
+  }, [playing, isSeeking]);
 
   const setPlayState = (value) => {
     setPlaying(value);
@@ -152,7 +169,7 @@ const Player = ({ songs, activeSong }) => {
       <Box color="gray.600">
         <Flex justify="center" align="center">
           <Box width="10%">
-            <Text fontSize="xs">1:22</Text>
+            <Text fontSize="xs">{formatTime(seek)}</Text>
           </Box>
           <Box width="80%">
             <RangeSlider
@@ -173,7 +190,7 @@ const Player = ({ songs, activeSong }) => {
             </RangeSlider>
           </Box>
           <Box width="10%" textAlign="right">
-            <Text fontSize="xs">320</Text>
+            <Text fontSize="xs">{formatTime(duration)}</Text>
           </Box>
         </Flex>
       </Box>
